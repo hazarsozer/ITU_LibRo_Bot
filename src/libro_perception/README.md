@@ -27,16 +27,15 @@ export TURTLEBOT3_MODEL=waffle_pi
 # CRITICAL: Adds our custom walls to Gazebo's model path
 export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/Projects/Robotics/libro_ws/src/libro_perception/models
 # Launches the world
-ros2 launch gazebo_ros gazebo.launch.py world:=~/Projects/Robotics/libro_ws/src/libro_perception/worlds/library_final.world
+ros2 launch gazebo_ros gazebo.launch.py world:=~/$YOURPATH/libro_ws/src/libro_perception/worlds/library_final.world
 ```
 
-### Terminal 2: Spawn Robot
+### Terminal 2: State Publisher
 
-This spawns the TurtleBot3 Waffle Pi at the library entrance.
+Initiates the Robot State Publisher.
 
 ```bash
 export TURTLEBOT3_MODEL=waffle_pi
-ros2 run gazebo_ros spawn_entity.py -file `ros2 pkg prefix turtlebot3_gazebo`/share/turtlebot3_gazebo/models/turtlebot3_waffle_pi/model.sdf -entity turtlebot3_waffle_pi -x -8.74 -y 2.83 -z 0 &
 ros2 run robot_state_publisher robot_state_publisher --ros-args -p use_sim_time:=true -p robot_description:="$(xacro /opt/ros/humble/share/turtlebot3_description/urdf/turtlebot3_waffle_pi.urdf)"
 ```
 
@@ -47,7 +46,7 @@ This loads the map and localization system.
 ```bash
 export TURTLEBOT3_MODEL=waffle_pi
 # Loads our specific map from the 'maps' folder
-ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=~/Projects/Robotics/libro_ws/src/libro_perception/maps/library_final_map.yaml
+ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=~/$YOURPATH/libro_ws/src/libro_perception/maps/library_final_map.yaml
 ```
 
 ### Terminal 4: Main Controller
@@ -56,21 +55,6 @@ This runs the visual perception and navigation logic.
 
 ```bash
 # Navigate to the scripts folder first so YOLO finds the weights
-cd ~/Projects/Robotics/libro_ws/src/libro_perception/scripts/
-python3 libro_visual_nav.py
+cd ~/$YOURPATH/libro_ws/src/libro_perception/scripts/
+python3 libro_navigation.py
 ```
-
-### ✅ Final Verification
-
-1. **Open `README.md`** and paste the text above.
-2. **Save and Close.**
-3. **Run Git Commands:**
-
-```bash
-git add .
-git commit -m "Updated README with correct paths for maps, models, and scripts"
-git push origin main
-```
-
-Now your submission is clean, documented, and points to all the correct files! 🎓
-
